@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex"/>
+<title>Preparing Your Link…</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+<!-- MONETAG MULTITAG SCRIPT — already working -->
+<script src="//quge5.com/88/tag.min.js" data-zone="222437" async data-cfasync="false"></script>
+
+<!-- Load your links database -->
+<script src="links.js"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{
+  min-height:100vh;
+  background:#0a0e1a;
+  color:#e8f0ff;
+  font-family:'Outfit',sans-serif;
+  display:flex;
+  flex-direction:column;
+}
+
+/* BG */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56,120,255,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 85% 85%, rgba(6,182,212,0.08) 0%, transparent 55%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* AD TOP BAR */
+.ad-top{
+  position:relative;
+  z-index:10;
+  background:rgba(255,255,255,0.03);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:10px 16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  min-height:70px;
+}
+.ad-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#4a6080}
+
+/* Monetag will inject ads here automatically via multitag */
+/* These divs are for any manual banner zones you add later */
+.ad-728{width:728px;max-width:100%;min-height:90px;display:flex;align-items:center;justify-content:center}
+
+/* MAIN */
+main{
+  flex:1;
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px 16px 40px;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:160px minmax(0,500px) 160px;
+  gap:20px;
+  width:100%;
+  max-width:860px;
+  align-items:start;
+}
+@media(max-width:820px){
+  .layout{grid-template-columns:1fr}
+  .side{display:none}
+}
+
+.side{display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:4px}
+.side-ad-box{width:150px;min-height:250px;display:flex;align-items:center;justify-content:center}
+
+/* CARD */
+.card{
+  background:linear-gradient(160deg,#0f1a2e 0%,#0a1220 100%);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(56,120,255,0.06);
+  animation:cardIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* CARD HEADER */
+.card-head{
+  padding:24px 24px 20px;
+  background:linear-gradient(135deg,rgba(56,120,255,0.08) 0%,transparent 60%);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.verified-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(34,197,94,0.1);
+  border:1px solid rgba(34,197,94,0.2);
+  color:#4ade80;
+  font-size:11px;font-weight:600;
+  padding:4px 12px;border-radius:99px;
+  margin-bottom:14px;
+  letter-spacing:0.3px;
+}
+.dot-pulse{width:6px;height:6px;background:#22c55e;border-radius:50%;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.7)}}
+
+.file-row{display:flex;align-items:center;gap:14px}
+.file-icon{
+  width:50px;height:50px;flex-shrink:0;
+  background:linear-gradient(135deg,#3878ff,#06b6d4);
+  border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+  box-shadow:0 4px 16px rgba(56,120,255,0.3);
+}
+.file-name{font-size:18px;font-weight:700;margin-bottom:5px;word-break:break-word;line-height:1.3}
+.file-info{display:flex;gap:10px;font-size:12px;color:#6a88b0;flex-wrap:wrap}
+
+/* CARD BODY */
+.card-body{padding:22px 24px}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.step{display:flex;align-items:center;gap:10px;font-size:13px;color:#5a7090;transition:color 0.4s}
+.step.active{color:#94b8e0}
+.step.done{color:#e8f0ff}
+.step-dot{
+  width:22px;height:22px;border-radius:50%;flex-shrink:0;
+  border:1.5px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:600;
+  transition:all 0.4s;
+}
+.step.done .step-dot{background:#22c55e;border-color:#22c55e;color:#fff}
+.step.active .step-dot{border-color:#3878ff;color:#7ab0ff}
+
+/* TIMER */
+.timer-section{
+  display:flex;flex-direction:column;align-items:center;
+  gap:12px;margin-bottom:20px;
+  padding:18px;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;
+}
+
+.ring-container{position:relative;width:100px;height:100px}
+.ring-container svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:6}
+.ring-progress{
+  fill:none;
+  stroke:url(#ringGrad);
+  stroke-width:6;
+  stroke-linecap:round;
+  stroke-dasharray:283;
+  stroke-dashoffset:283;
+  transition:stroke-dashoffset 0.9s linear;
+}
+.ring-inner{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.ring-number{font-size:28px;font-weight:700;line-height:1;color:#e8f0ff}
+.ring-unit{font-size:10px;color:#4a6080;margin-top:1px;font-weight:500;letter-spacing:0.5px}
+
+.progress-track{width:100%;height:4px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#3878ff,#06b6d4);width:0%;border-radius:99px;transition:width 0.9s linear}
+
+.timer-text{font-size:12px;color:#5a7090;text-align:center}
+.timer-text.ready{color:#4ade80 !important;font-weight:500}
+
+/* BUTTON */
+.btn-main{
+  width:100%;padding:15px 20px;
+  border:none;border-radius:12px;
+  font-family:'Outfit',sans-serif;
+  font-size:16px;font-weight:700;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all 0.2s;
+  letter-spacing:0.2px;
+}
+.btn-main:disabled{
+  background:rgba(255,255,255,0.05);
+  color:#3a5070;
+  cursor:not-allowed;
+}
+.btn-main.ready{
+  background:linear-gradient(135deg,#3878ff 0%,#06b6d4 100%);
+  color:#fff;
+  box-shadow:0 6px 24px rgba(56,120,255,0.4);
+}
+.btn-main.ready:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(56,120,255,0.5)}
+.btn-main.ready:active{transform:scale(0.98)}
+.btn-arrow{font-size:18px;transition:transform 0.2s}
+.btn-main.ready:hover .btn-arrow{transform:translateX(4px)}
+
+/* NOTE */
+.note{
+  margin-top:14px;padding:10px 13px;
+  background:rgba(56,120,255,0.05);
+  border:1px solid rgba(56,120,255,0.1);
+  border-radius:9px;
+  font-size:11px;color:#5a7090;line-height:1.6;
+}
+.note b{color:#7ab0ff}
+
+/* CARD BOTTOM AD */
+.card-ad{
+  padding:16px 24px 20px;
+  border-top:1px solid rgba(255,255,255,0.05);
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.ad-box-300{width:300px;max-width:100%;min-height:100px;display:flex;align-items:center;justify-content:center}
+
+footer{
+  position:relative;z-index:1;
+  text-align:center;padding:16px;
+  font-size:11px;color:#2a3a50;
+  border-top:1px solid rgba(255,255,255,0.04);
+}
+footer a{color:#2a3a50;text-decoration:none}
+footer a:hover{color:#5a7090}
+
+/* ERROR STATE */
+.error-state{text-align:center;padding:20px 0}
+.error-icon{font-size:40px;margin-bottom:10px}
+.error-title{font-size:18px;font-weight:700;color:#ef4444;margin-bottom:6px}
+.error-msg{font-size:13px;color:#5a7090}
+</style>
+</head>
+<body>
+
+<!-- TOP AD ZONE -->
+<div class="ad-top">
+  <div class="ad-label">Advertisement</div>
+  <div class="ad-728" id="adTop">
+    <!-- Monetag Multitag auto-fills ads here -->
+  </div>
+</div>
+
+<main>
+  <div class="layout">
+
+    <!-- LEFT SIDE AD -->
+    <div class="side">
+      <div class="ad-label">Ad</div>
+      <div class="side-ad-box" id="adLeft"></div>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="card" id="mainCard">
+
+      <div class="card-head">
+        <div class="verified-badge">
+          <span class="dot-pulse"></span>
+          Secure &amp; Verified
+        </div>
+        <div class="file-row">
+          <div class="file-icon">📦</div>
+          <div>
+            <div class="file-name" id="pgTitle">Loading…</div>
+            <div class="file-info">
+              <span>☁️ <span id="pgHost">Cloud Storage</span></span>
+              <span>🔒 Safe Link</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body" id="cardBody">
+
+        <!-- STEPS -->
+        <div class="steps">
+          <div class="step done" id="step1">
+            <div class="step-dot">✓</div>
+            <span>Link verified and secure</span>
+          </div>
+          <div class="step active" id="step2">
+            <div class="step-dot">2</div>
+            <span>Preparing your access…</span>
+          </div>
+          <div class="step" id="step3">
+            <div class="step-dot">3</div>
+            <span>Click button to get your file</span>
+          </div>
+        </div>
+
+        <!-- TIMER -->
+        <div class="timer-section">
+          <div class="ring-container">
+            <svg width="100" height="100" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#3878ff"/>
+                  <stop offset="100%" stop-color="#06b6d4"/>
+                </linearGradient>
+              </defs>
+              <circle class="ring-bg" cx="50" cy="50" r="45"/>
+              <circle class="ring-progress" id="ringProgress" cx="50" cy="50" r="45"/>
+            </svg>
+            <div class="ring-inner">
+              <div class="ring-number" id="ringNumber">--</div>
+              <div class="ring-unit">SEC</div>
+            </div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="timer-text" id="timerText">Please wait while we prepare your link…</div>
+        </div>
+
+        <!-- BUTTON -->
+        <button class="btn-main" id="mainBtn" disabled>
+          <span id="btnLabel">Please wait…</span>
+          <span class="btn-arrow" id="btnArrow" style="display:none">→</span>
+        </button>
+
+        <div class="note">
+          <b>Note:</b> Ads support this free service. Please allow ads for best experience. Your link is 100% safe and opens after countdown.
+        </div>
+
+      </div>
+
+      <!-- BOTTOM AD -->
+      <div class="card-ad">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-box-300" id="adBottom"></div>
+      </div>
+
+    </div><!-- /card -->
+
+    <!-- RIGHT SIDE AD -->
+    <div class="side">
+      <div class="ad-label">Ad</div>
+      <div class="side-ad-box" id="adRight"></div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 SecureLink &nbsp;|&nbsp;
+  <a href="#">Privacy Policy</a> &nbsp;|&nbsp;
+  <a href="#">Terms of Use</a>
+</footer>
+
+<script>
+// ── Get link ID from URL ──
+var params = new URLSearchParams(window.location.search);
+var linkId = (params.get('id') || '').trim();
+
+// ── Find the link in database ──
+var linkData = null;
+if(typeof LINKS !== 'undefined'){
+  for(var i=0; i<LINKS.length; i++){
+    if(LINKS[i].id === linkId){ linkData = LINKS[i]; break; }
+  }
+}
+
+// ── If link not found ──
+if(!linkData){
+  document.getElementById('pgTitle').textContent = 'Link Not Found';
+  document.getElementById('cardBody').innerHTML =
+    '<div class="error-state">' +
+    '<div class="error-icon">🔍</div>' +
+    '<div class="error-title">Link Not Found</div>' +
+    '<div class="error-msg">This link does not exist or has been removed.</div>' +
+    '</div>';
+} else {
+  // ── Setup page ──
+  document.title = linkData.title + ' — SecureLink';
+  document.getElementById('pgTitle').textContent = linkData.title;
+  document.getElementById('pgHost').textContent = detectHost(linkData.dest);
+
+  var TOTAL = parseInt(linkData.timer) || 15;
+  var remaining = TOTAL;
+  var CIRCUMFERENCE = 283; // 2 * PI * 45
+
+  var ringEl    = document.getElementById('ringProgress');
+  var numEl     = document.getElementById('ringNumber');
+  var fillEl    = document.getElementById('progressFill');
+  var textEl    = document.getElementById('timerText');
+  var btn       = document.getElementById('mainBtn');
+  var btnLabel  = document.getElementById('btnLabel');
+  var btnArrow  = document.getElementById('btnArrow');
+  var step2     = document.getElementById('step2');
+  var step3     = document.getElementById('step3');
+
+  // Set initial display
+  numEl.textContent = remaining;
+  ringEl.style.strokeDashoffset = CIRCUMFERENCE;
+
+  // ── START TIMER ──
+  var timerInterval = setInterval(function(){
+    remaining--;
+
+    // Update number
+    numEl.textContent = remaining;
+
+    // Update ring
+    var pct = (TOTAL - remaining) / TOTAL;
+    ringEl.style.strokeDashoffset = CIRCUMFERENCE - (CIRCUMFERENCE * pct);
+
+    // Update progress bar
+    fillEl.style.width = (pct * 100) + '%';
+
+    // Timer done
+    if(remaining <= 0){
+      clearInterval(timerInterval);
+
+      // Update steps
+      step2.classList.remove('active');
+      step2.classList.add('done');
+      step2.querySelector('.step-dot').textContent = '✓';
+      step3.classList.add('active');
+
+      // Update text
+      textEl.textContent = 'Ready! Click the button below to access your file.';
+      textEl.classList.add('ready');
+      numEl.textContent = '0';
+
+      // Enable button
+      btn.disabled = false;
+      btn.classList.add('ready');
+      btnLabel.textContent = 'Continue to File';
+      btnArrow.style.display = 'inline';
+
+      // Button click handler
+      btn.onclick = function(){
+        // Mark step 3 done
+        step3.classList.remove('active');
+        step3.classList.add('done');
+        step3.querySelector('.step-dot').textContent = '✓';
+
+        // Disable button
+        btn.disabled = true;
+        btn.classList.remove('ready');
+        btnLabel.textContent = 'Redirecting…';
+        btnArrow.style.display = 'none';
+
+        // Encode destination and go to bridge page
+        var encoded = encodeURIComponent(linkData.dest);
+        setTimeout(function(){
+          window.location.href = 'bridge.html?url=' + encoded + '&t=' + linkData.title;
+        }, 500);
+      };
+    }
+  }, 1000);
+}
+
+function detectHost(url){
+  try{
+    var h = new URL(url).hostname.toLowerCase();
+    if(h.indexOf('terabox') > -1) return 'Terabox';
+    if(h.indexOf('google') > -1)  return 'Google Drive';
+    if(h.indexOf('mega') > -1)    return 'Mega.nz';
+    if(h.indexOf('mediafire') > -1) return 'MediaFire';
+    if(h.indexOf('dropbox') > -1) return 'Dropbox';
+    if(h.indexOf('onedrive') > -1) return 'OneDrive';
+    return 'Cloud Storage';
+  }catch(e){ return 'Cloud Storage'; }
+}
+</script>
+</body>
+</html>
