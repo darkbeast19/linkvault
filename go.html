@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeraShares - Secure File Access</title>
+
+    <!-- MONETAG: Multitag -->
+    <script src="https://quge5.com/88/tag.min.js" data-zone="222437" async data-cfasync="false"></script>
+    <!-- MONETAG: Tag zone 10765657 -->
+    <script>(function(s){s.dataset.zone='10765657',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <!-- MONETAG: Vignette zone 10765653 -->
+    <script>(function(s){s.dataset.zone='10765653',s.src='https://izcle.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            margin: 20px auto;
+        }
+        .logo { font-size: 24px; font-weight: 900; color: #0f3460; margin-bottom: 6px; letter-spacing: 1px; }
+        .logo span { color: #e94560; }
+        h1 { color: #1a1a2e; font-size: 20px; margin-bottom: 10px; }
+        .file-info {
+            background: #f0f4ff; border-radius: 10px;
+            padding: 12px 16px; margin: 14px 0;
+            text-align: left; border-left: 4px solid #0f3460;
+        }
+        .file-info .fname { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; word-break: break-all; }
+        .file-info .fmeta { font-size: 12px; color: #666; display: flex; gap: 12px; flex-wrap: wrap; }
+        .message { color: #555; margin-bottom: 10px; line-height: 1.6; font-size: 14px; }
+        .timer-wrap { margin: 20px 0; }
+        .timer { font-size: 72px; color: #0f3460; font-weight: 900; line-height: 1; margin-bottom: 6px; }
+        .timer-label { font-size: 13px; color: #888; margin-bottom: 10px; }
+        .progress-bar-bg { background: #e9ecef; border-radius: 99px; height: 8px; overflow: hidden; margin: 12px 0; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #0f3460, #e94560); border-radius: 99px; width: 0%; transition: width 1s linear; }
+        .btn-continue {
+            background: linear-gradient(135deg, #0f3460 0%, #e94560 100%);
+            color: white; border: none; padding: 15px 40px;
+            border-radius: 10px; font-size: 18px; font-weight: 700;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px 0; width: 100%;
+        }
+        .btn-continue:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(15,52,96,0.4); }
+        .btn-continue:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-nextstep {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            color: white; border: none; padding: 18px 40px;
+            border-radius: 10px; font-size: 20px; font-weight: 700;
+            cursor: pointer; width: 100%; margin: 16px 0;
+        }
+        @keyframes pulsebtn {
+            0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,0.5); }
+            50%      { box-shadow: 0 0 0 16px rgba(233,69,96,0); }
+        }
+        .btn-nextstep { animation: pulsebtn 1.4s infinite; }
+        .btn-nextstep:hover { transform: translateY(-2px); }
+        .hidden { display: none !important; }
+
+        /* ── AD SLOTS — fixed size so they always reserve space ── */
+        .ad-slot {
+            margin: 18px auto;
+            width: 300px;
+            height: 260px;           /* 250px ad + 10px label */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background: #f5f5f5;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .ad-label { font-size: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; padding: 4px 0; }
+        /* Force Adsterra iframes to display */
+        .ad-slot iframe,
+        .ad-slot > div { display: block !important; }
+
+        .article-wrap {
+            background: #f8f9fa; border-radius: 12px;
+            padding: 18px; margin: 20px 0; text-align: left;
+        }
+        .article-wrap h2 { color: #1a1a2e; font-size: 15px; margin: 16px 0 8px; border-left: 3px solid #e94560; padding-left: 10px; }
+        .article-wrap h2:first-child { margin-top: 0; }
+        .article-wrap p  { font-size: 13px; color: #444; line-height: 1.7; margin-bottom: 12px; }
+        .article-wrap ul { font-size: 13px; color: #444; line-height: 1.8; padding-left: 18px; margin-bottom: 12px; }
+        .article-wrap table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 14px; }
+        .article-wrap th { background: #0f3460; color: white; padding: 8px; text-align: left; }
+        .article-wrap td { padding: 7px 8px; border-bottom: 1px solid #e9ecef; color: #444; }
+        .article-wrap tr:nth-child(even) td { background: #f0f4ff; }
+        .tip { background: #fff3cd; border-left: 3px solid #ffc107; padding: 10px 12px; border-radius: 6px; font-size: 13px; color: #555; margin: 12px 0; }
+        .steps { display: flex; justify-content: center; gap: 8px; margin: 14px 0; flex-wrap: wrap; }
+        .step-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #666; background: #f0f4ff; padding: 6px 12px; border-radius: 99px; }
+        .step-item.done   { background: #d4edda; color: #155724; }
+        .step-item.active { background: #0f3460; color: white; }
+        footer { text-align: center; font-size: 11px; color: #999; margin-top: 16px; padding-top: 12px; border-top: 1px solid #eee; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="logo">Tera<span>Shares</span></div>
+    <h1>🚀 Your Link is Almost Ready!</h1>
+
+    <div class="file-info">
+        <div class="fname" id="pgTitle">Loading…</div>
+        <div class="fmeta">
+            <span>☁️ <span id="pgHost">Cloud Storage</span></span>
+            <span>🔒 Safe &amp; Verified</span>
+        </div>
+    </div>
+
+    <div class="steps">
+        <div class="step-item done">✓ Link Verified</div>
+        <div class="step-item active" id="stepWait">⏳ Please Wait</div>
+        <div class="step-item" id="stepGo">→ Get File</div>
+    </div>
+
+    <p class="message" id="topMsg">Please wait for the timer to complete…</p>
+
+    <div class="timer-wrap">
+        <div class="timer" id="timerNum">30</div>
+        <div class="timer-label" id="timerLabel">seconds remaining</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <button class="btn-continue" id="continueBtn" disabled onclick="handleContinue()">
+        ⏳ Please Wait…
+    </button>
+
+    <!-- ══ ADSTERRA BANNER AD 1 — TOP ══ -->
+    <div class="ad-slot">
+        <div class="ad-label">Advertisement</div>
+        <script type="text/javascript">
+            atOptions = { 'key':'0e79820e461d0f455fea3e18fdc33564','format':'iframe','height':250,'width':300,'params':{} };
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/0e79820e461d0f455fea3e18fdc33564/invoke.js"></script>
+    </div>
+
+    <!-- ARTICLE — keeps user on page longer -->
+    <div class="article-wrap">
+        <h2>⚡ Why TeraShares is the Best File Sharing Platform</h2>
+        <p>TeraShares uses advanced encryption and secure link technology to ensure your files are always safe, private, and accessible. Our system verifies every link before delivery to protect you from malicious content.</p>
+        <h2>🔒 Security Features</h2>
+        <ul>
+            <li>End-to-end encrypted links</li>
+            <li>Time-limited access tokens</li>
+            <li>Verified destination URLs</li>
+            <li>Anti-bot protection</li>
+            <li>Malware scanning on all links</li>
+        </ul>
+        <div class="tip">💡 Always use secure sharing platforms like TeraShares to protect your files and personal data online.</div>
+        <h2>📊 TeraShares vs Regular File Sharing</h2>
+        <table>
+            <tr><th>Feature</th><th>TeraShares</th><th>Regular</th></tr>
+            <tr><td>Encrypted Links</td><td>✅ Yes</td><td>❌ No</td></tr>
+            <tr><td>Verified Links</td><td>✅ Yes</td><td>❌ No</td></tr>
+            <tr><td>Fast Delivery</td><td>✅ Yes</td><td>⚠️ Slow</td></tr>
+            <tr><td>Multi-Cloud</td><td>✅ Yes</td><td>❌ Limited</td></tr>
+            <tr><td>Free to Use</td><td>✅ Yes</td><td>⚠️ Varies</td></tr>
+        </table>
+        <h2>☁️ Supported Platforms</h2>
+        <ul>
+            <li><strong>Terabox</strong> — Up to 1TB free storage</li>
+            <li><strong>Google Drive</strong> — Best for documents</li>
+            <li><strong>Mega.nz</strong> — End-to-end encrypted</li>
+            <li><strong>MediaFire</strong> — Fast downloads</li>
+            <li><strong>Dropbox</strong> — Best for teams</li>
+            <li><strong>OneDrive</strong> — Microsoft integration</li>
+        </ul>
+        <h2>🛡️ Our Security Promise</h2>
+        <p>Every link shared through TeraShares is scanned for malware, verified for authenticity, and monitored for suspicious activity. We guarantee 100% safe file delivery.</p>
+        <h2>📱 Works on All Devices</h2>
+        <p>TeraShares works perfectly on mobile, tablet, and desktop browsers. No app installation required. Access your files anywhere, anytime.</p>
+        <h2>⚡ Lightning Fast Downloads</h2>
+        <p>Our CDN-powered delivery network ensures maximum download speeds regardless of your location. We have servers across 50+ countries worldwide.</p>
+        <div class="tip">🚀 TeraShares handles all major cloud storage platforms — just paste any cloud link and we do the rest!</div>
+        <h2>🔍 How It Works</h2>
+        <p>Simply paste your cloud storage link into TeraShares. Our system generates a secure short link that hides your original URL. Share the TeraShares link and let our system handle the rest safely.</p>
+    </div>
+
+    <!-- ══ ADSTERRA BANNER AD 2 — BOTTOM ══ -->
+    <div class="ad-slot">
+        <div class="ad-label">Advertisement</div>
+        <script type="text/javascript">
+            atOptions = { 'key':'0e79820e461d0f455fea3e18fdc33564','format':'iframe','height':250,'width':300,'params':{} };
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/0e79820e461d0f455fea3e18fdc33564/invoke.js"></script>
+    </div>
+
+    <!-- GET FILE BUTTON — revealed after Continue clicked -->
+    <button class="btn-nextstep hidden" id="nextStepBtn" onclick="goToNextStep()">
+        ✅ Get Your File Now →
+    </button>
+
+    <footer>&copy; 2025 TeraShares — Secure File Sharing Platform</footer>
+</div>
+
+<script>
+var BIN_ID  = '69c1131bc3097a1dd54f5576';
+var API_KEY = '$2a$10$nqO3BuSppj5AkPaRVaPFY.54Lyzlab7BoJIwxYbdblenP6UF4HHtq';
+var BIN_URL = 'https://api.jsonbin.io/v3/b/' + BIN_ID;
+var ADSTERRA_DIRECT = 'https://www.profitablecpmratenetwork.com/pe474i2qgg?key=f36093b06185484016364857fe2203c5';
+
+var adsFired = 0;       // track how many times direct link opened
+var linkDest = '';
+
+// ── Load link data ──
+var params = new URLSearchParams(window.location.search);
+var linkId = (params.get('id') || '').trim();
+
+fetch(BIN_URL, { headers: { 'X-Master-Key': API_KEY, 'X-Bin-Meta': 'false' } })
+.then(function(r){ return r.json(); })
+.then(function(data){
+    var links = (data && data.links) ? data.links : [];
+    var linkData = null;
+    for(var i = 0; i < links.length; i++){
+        if(links[i].id === linkId){ linkData = links[i]; break; }
+    }
+    if(!linkData){
+        document.getElementById('pgTitle').textContent = 'Link not found';
+        document.getElementById('topMsg').textContent  = 'This link does not exist or has been removed.';
+        document.getElementById('timerNum').style.display   = 'none';
+        document.getElementById('timerLabel').style.display = 'none';
+        document.getElementById('continueBtn').style.display = 'none';
+        return;
+    }
+    document.title = linkData.title + ' — TeraShares';
+    document.getElementById('pgTitle').textContent = linkData.title;
+    document.getElementById('pgHost').textContent  = detectHost(linkData.dest);
+    linkDest = linkData.dest;
+
+    // Track click
+    linkData.clicks = (linkData.clicks || 0) + 1;
+    fetch(BIN_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY, 'X-Bin-Meta': 'false' },
+        body: JSON.stringify({ links: links })
+    });
+
+    startTimer(linkData.timer || 30);
+})
+.catch(function(){ document.getElementById('pgTitle').textContent = 'Error — please refresh'; });
+
+// ── Timer ──
+function startTimer(total){
+    var left     = parseInt(total);
+    var timerEl  = document.getElementById('timerNum');
+    var fillEl   = document.getElementById('progressFill');
+    var btn      = document.getElementById('continueBtn');
+    var stepWait = document.getElementById('stepWait');
+    var stepGo   = document.getElementById('stepGo');
+    var topMsg   = document.getElementById('topMsg');
+    var timerLbl = document.getElementById('timerLabel');
+
+    timerEl.textContent = left;
+
+    var iv = setInterval(function(){
+        left--;
+        timerEl.textContent = left < 0 ? 0 : left;
+        fillEl.style.width  = (((total - left) / total) * 100) + '%';
+        if(left <= 0){
+            clearInterval(iv);
+            timerEl.style.display   = 'none';
+            timerLbl.style.display  = 'none';
+            btn.disabled    = false;
+            btn.textContent = '✅ Continue to File →';
+            btn.style.background = 'linear-gradient(135deg,#28a745,#20c997)';
+            topMsg.textContent = '✅ Timer complete! Click the button below.';
+            stepWait.className   = 'step-item done';
+            stepWait.textContent = '✓ Wait Done';
+            stepGo.className     = 'step-item active';
+        }
+    }, 1000);
+}
+
+// ── Continue button clicked (ONCE — then disappears) ──
+function handleContinue(){
+    // Hide continue button forever
+    document.getElementById('continueBtn').classList.add('hidden');
+    document.getElementById('topMsg').textContent = '👇 Scroll down and click Get File!';
+    document.getElementById('stepGo').className = 'step-item active';
+
+    // Show the Get File button
+    var getBtn = document.getElementById('nextStepBtn');
+    getBtn.classList.remove('hidden');
+
+    // Fire Adsterra direct link ONCE
+    fireAdsterra();
+
+    // Auto-scroll to Get File button after 400ms
+    setTimeout(function(){
+        getBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 400);
+}
+
+// ── Get File button clicked ──
+function goToNextStep(){
+    // Fire Adsterra direct link ONE more time
+    fireAdsterra();
+
+    // Disable button to prevent double click
+    var btn = document.getElementById('nextStepBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Opening…';
+
+    // Redirect to bridge page
+    setTimeout(function(){
+        window.location.href = 'bridge.html?url=' + encodeURIComponent(linkDest);
+    }, 700);
+}
+
+// ── Fire Adsterra direct link (max 2 times total) ──
+function fireAdsterra(){
+    if(adsFired >= 2) return;
+    adsFired++;
+    window.open(ADSTERRA_DIRECT, '_blank');
+}
+
+function detectHost(u){
+    try{
+        var h = new URL(u).hostname.toLowerCase();
+        if(h.indexOf('terabox')   > -1) return 'Terabox';
+        if(h.indexOf('google')    > -1) return 'Google Drive';
+        if(h.indexOf('mega')      > -1) return 'Mega.nz';
+        if(h.indexOf('mediafire') > -1) return 'MediaFire';
+        if(h.indexOf('dropbox')   > -1) return 'Dropbox';
+        return 'Cloud Storage';
+    } catch(e){ return 'Cloud Storage'; }
+}
+</script>
+</body>
+</html>
